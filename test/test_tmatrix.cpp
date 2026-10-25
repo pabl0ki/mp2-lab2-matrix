@@ -24,26 +24,27 @@ TEST(TDynamicMatrix, can_create_copied_matrix)
     ASSERT_NO_THROW(TDynamicMatrix<int> m1(m));
 }
 
-TEST(TDynamicMatrix, copied_matrix_is_equal_to_source_one)
-{
-    TDynamicMatrix<int> m(3);
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++)
-            m[i][j] = i * 3 + j;
+    TEST(TDynamicMatrix, copied_matrix_is_equal_to_source_one)
+    {
+        TDynamicMatrix<int> m(3);
+        for (size_t i = 0; i < 3; i++) {
+            for (size_t j = i; j < 3; j++) {
+                m[i][j] = i * 3 + j;
+            }
+        }
+        TDynamicMatrix<int> m1(m);
 
-    TDynamicMatrix<int> m1(m);
-
-    EXPECT_TRUE(m == m1);
-}
+        EXPECT_TRUE(m == m1);
+    }
 
 TEST(TDynamicMatrix, copied_matrix_has_its_own_memory)
 {
     TDynamicMatrix<int> m(3);
     TDynamicMatrix<int> m1(m);
 
-    m1[0][0] = 100;
+    m1[0][2] = 100;
 
-    EXPECT_NE(m[0][0], m1[0][0]);
+    EXPECT_NE(m[0][2], m1[0][2]);
 }
 
 TEST(TDynamicMatrix, can_get_size)
@@ -88,10 +89,11 @@ TEST(TDynamicMatrix, can_assign_matrix_to_itself)
 TEST(TDynamicMatrix, can_assign_matrices_of_equal_size)
 {
     TDynamicMatrix<int> m1(3), m2(3);
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++)
+    for (int i = 0; i < 3; i++) {
+        for (int j = i; j < 3; j++) {
             m1[i][j] = i + j;
-
+        }
+    }
     m2 = m1;
 
     EXPECT_TRUE(m1 == m2);
@@ -109,22 +111,24 @@ TEST(TDynamicMatrix, assign_operator_change_matrix_size)
 TEST(TDynamicMatrix, can_assign_matrices_of_different_size)
 {
     TDynamicMatrix<int> m1(3), m2(5);
-    for (size_t i = 0; i < 5; i++)
-        for (size_t j = 0; j < 5; j++)
+    for (int i = 0; i < 5; i++) {
+        for (int j = i; j < 5; j++) {
             m2[i][j] = i * j;
-
+        }
+    }
     m1 = m2;
-
     EXPECT_TRUE(m1 == m2);
 }
 
 TEST(TDynamicMatrix, compare_equal_matrices_return_true)
 {
     TDynamicMatrix<int> m1(3), m2(3);
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++)
-            m1[i][j] = m2[i][j] = i + 2 * j;
-
+    for (int i = 0; i < 3; i++) {
+        for (int j = i; j < 3; j++) {
+            m1[i][j] = i + 2 * j;
+            m2[i][j] = i + 2 * j;
+        }
+    }
     EXPECT_TRUE(m1 == m2);
 }
 
@@ -146,13 +150,13 @@ TEST(TDynamicMatrix, matrices_with_different_size_are_not_equal)
 TEST(TDynamicMatrix, can_add_matrices_with_equal_size)
 {
     TDynamicMatrix<int> m1(3), m2(3), expected(3);
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++) {
+    for (int i = 0; i < 3; i++){
+        for (int j = i; j < 3; j++) {
             m1[i][j] = i + j;
             m2[i][j] = i * j;
             expected[i][j] = i + j + i * j;
         }
-
+    }
     EXPECT_TRUE(expected == m1 + m2);
 }
 
@@ -166,13 +170,13 @@ TEST(TDynamicMatrix, cant_add_matrices_with_not_equal_size)
 TEST(TDynamicMatrix, can_subtract_matrices_with_equal_size)
 {
     TDynamicMatrix<int> m1(3), m2(3), expected(3);
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = i; j < 3; j++) {
             m1[i][j] = i + j;
             m2[i][j] = i * j;
             expected[i][j] = i + j - i * j;
         }
-
+    }
     EXPECT_TRUE(expected == m1 - m2);
 }
 

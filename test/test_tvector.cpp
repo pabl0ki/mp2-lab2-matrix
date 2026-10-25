@@ -38,7 +38,7 @@ TEST(TDynamicVector, copied_vector_has_its_own_memory)
 	TDynamicVector<int> v(4);
 	TDynamicVector<int> v1(v);
 	v1[0] = 100;
-	EXPECT_NE(v[0], v1[0]);
+	EXPECT_NE(v[0], v1[0]); //сравнить указатель
 }
 
 TEST(TDynamicVector, can_get_size)
